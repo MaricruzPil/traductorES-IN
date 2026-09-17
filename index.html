@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor Inteligente Multimodal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <span class="navbar-brand fw-bold">🌐 AI Multimodal Translator (POO)</span>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container my-4 flex-grow-1">
+        
+        <!-- Control de Dirección -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <h5 class="card-title m-0 text-primary">Panel de Control</h5>
+                <div class="input-group w-auto">
+                    <label class="input-group-text bg-primary text-white" for="globalDirection">Dirección</label>
+                    <select class="form-select" id="globalDirection">
+                        <option value="es-en">Español ➡️ Inglés</option>
+                        <option value="en-es">Inglés ⬅️ Español</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestañas -->
+        <ul class="nav nav-pills nav-fill gap-2 mb-4" role="tablist">
+            <li class="nav-item"><button class="nav-link active fw-semibold" data-bs-toggle="tab" data-bs-target="#chat-pane" type="button">💬 Chat</button></li>
+            <li class="nav-item"><button class="nav-link fw-semibold" data-bs-toggle="tab" data-bs-target="#audio-pane" type="button">🎙️ Audio</button></li>
+            <li class="nav-item"><button class="nav-link fw-semibold" data-bs-toggle="tab" data-bs-target="#doc-pane" type="button">📄 Documentos</button></li>
+            <li class="nav-item"><button class="nav-link fw-semibold" data-bs-toggle="tab" data-bs-target="#image-pane" type="button">🖼️ Imágenes</button></li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- CHAT -->
+            <div class="tab-pane fade show active" id="chat-pane">
+                <div class="card shadow-sm p-3">
+                    <div id="chatMessages" class="border rounded p-3 mb-3 bg-white overflow-auto" style="height: 300px;">
+                        <p class="text-muted text-center">Escribe un mensaje para comenzar...</p>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="chatInput" class="form-control" placeholder="Mensaje...">
+                        <button class="btn btn-primary" id="sendChatBtn">Enviar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUDIO -->
+            <div class="tab-pane fade" id="audio-pane">
+                <div class="card shadow-sm p-4">
+                    <input class="form-control mb-3" type="file" id="audioFile" accept="audio/*">
+                    <button class="btn btn-primary mb-3" id="processAudioBtn">Procesar Audio</button>
+                    <div id="audioLoading" class="d-none text-center spinner-border text-primary my-2"></div>
+                    <div class="row">
+                        <div class="col-md-6"><label class="fw-bold">Original:</label><textarea id="audioOriginal" class="form-control" rows="3" readonly></textarea></div>
+                        <div class="col-md-6"><label class="fw-bold text-success">Traducción:</label><textarea id="audioTranslation" class="form-control" rows="3" readonly></textarea></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOCUMENTOS -->
+            <div class="tab-pane fade" id="doc-pane">
+                <div class="card shadow-sm p-4">
+                    <input class="form-control mb-3" type="file" id="docFile" accept=".pdf,.docx,.txt">
+                    <button class="btn btn-primary mb-3" id="processDocBtn">Traducir Documento</button>
+                    <div id="docLoading" class="d-none text-center spinner-border text-primary my-2"></div>
+                    <div class="row">
+                        <div class="col-md-6"><label class="fw-bold">Original:</label><textarea id="docOriginal" class="form-control" rows="4" readonly></textarea></div>
+                        <div class="col-md-6"><label class="fw-bold text-success">Traducción:</label><textarea id="docTranslation" class="form-control" rows="4" readonly></textarea></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMÁGENES -->
+            <div class="tab-pane fade" id="image-pane">
+                <div class="card shadow-sm p-4 text-center">
+                    <input class="form-control mb-3" type="file" id="imageFile" accept="image/*">
+                    <img id="imagePreview" class="img-fluid rounded border d-none mx-auto mb-3" style="max-height: 200px;" alt="Preview">
+                    <button class="btn btn-primary mb-3" id="processImageBtn">Traducir Imagen</button>
+                    <div id="imageLoading" class="d-none spinner-border text-primary mx-auto my-2"></div>
+                    <div id="imageResult" class="border rounded p-3 bg-white text-start">Resultado aquí...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white text-center text-muted py-3 border-top mt-auto">
+        <p class="mb-0">Proyecto Integrador - Tendencias de la IA</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts POO separados -->
+    <script src="assets/js/translator.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
