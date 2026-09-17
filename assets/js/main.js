@@ -1,4 +1,4 @@
-// Instanciamos nuestra clase de traducción (puedes cambiar la URL si publicas en dominios separados)
+// Instanciamos nuestra clase de traducción
 const translator = new ApiTranslatorClient("https://traductorespanolinglesviceversa.vercel.app");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -45,21 +45,32 @@ document.addEventListener("DOMContentLoaded", () => {
     sendChatBtn.addEventListener("click", handleChat);
     chatInput.addEventListener("keypress", (e) => { if (e.key === "Enter") handleChat(); });
 
-    // --- 2. MÓDULO AUDIO ---
+    // --- 2. MÓDULO AUDIO (Subir archivo + Micrófono) ---
     const processAudioBtn = document.getElementById("processAudioBtn");
     const audioFile = document.getElementById("audioFile");
     const audioLoading = document.getElementById("audioLoading");
     const audioOriginal = document.getElementById("audioOriginal");
     const audioTranslation = document.getElementById("audioTranslation");
 
+    // Variables para grabación de micrófono
+    let mediaRecorder;
+    let audioChunks = [];
+    const recordAudioBtn = document.getElementById("recordAudioBtn");
+    const stopRecordBtn = document.getElementById("stopRecordBtn");
+    const recordStatus = document.getElementById("recordStatus");
+
     processAudioBtn.addEventListener("click", async () => {
         if (!audioFile.files[0]) return alert("Selecciona un archivo de audio primero.");
+        processAudioAndTranslate(audioFile.files[0]);
+    });
+
+    async function processAudioAndTranslate(fileObj) {
         audioLoading.classList.remove("d-none");
         audioOriginal.value = "";
         audioTranslation.value = "";
 
         try {
-            const res = await translator.translateAudio(audioFile.files[0], globalDirection.value);
+            const res = await translator.translateAudio(fileObj, globalDirection.value);
             audioOriginal.value = res.original;
             audioTranslation.value = res.translation;
         } catch (err) {
@@ -67,31 +78,90 @@ document.addEventListener("DOMContentLoaded", () => {
         } finally {
             audioLoading.classList.add("d-none");
         }
-    });
+    }
 
-    // --- 3. MÓDULO DOCUMENTOS ---
+    // Lógica para grabar desde la PC/Laptop
+    if (recordAudioBtn && stopRecordBtn) {
+        recordAudioBtn.addEventListener("click", async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                    const recordedFile = new File([audioBlob], "grabacion_mic.mp3", { type: 'audio/mp3' });
+                    await processAudioAndTranslate(recordedFile);
+                };
+
+                mediaRecorder.start();
+                recordAudioBtn.classList.add("d-none");
+                stopRecordBtn.classList.remove("d-none");
+                recordStatus.classList.remove("d-none");
+            } catch (err) {
+                alert("No se pudo acceder al micrófono: " + err.message);
+            }
+        });
+
+        stopRecordBtn.addEventListener("click", () => {
+            mediaRecorder.stop();
+            stopRecordBtn.classList.add("d-none");
+            recordAudioBtn.classList.remove("d-none");
+            recordStatus.classList.add("d-none");
+        });
+    }
+
+    // --- 3. MÓDULO DOCUMENTOS (Traducción + Descarga) ---
     const processDocBtn = document.getElementById("processDocBtn");
     const docFile = document.getElementById("docFile");
     const docLoading = document.getElementById("docLoading");
     const docOriginal = document.getElementById("docOriginal");
     const docTranslation = document.getElementById("docTranslation");
+    const downloadDocBtn = document.getElementById("downloadDocBtn");
+    let translatedDocText = "";
 
     processDocBtn.addEventListener("click", async () => {
         if (!docFile.files[0]) return alert("Selecciona un documento (PDF, Word o TXT).");
         docLoading.classList.remove("d-none");
         docOriginal.value = "";
         docTranslation.value = "";
+        if (downloadDocBtn) downloadDocBtn.classList.add("d-none");
 
         try {
             const res = await translator.translateDocument(docFile.files[0], globalDirection.value);
             docOriginal.value = res.original;
             docTranslation.value = res.translation;
+            translatedDocText = res.translation;
+
+            // Mostrar botón de descarga si existe en el HTML
+            if (downloadDocBtn) {
+                downloadDocBtn.classList.remove("d-none");
+            }
         } catch (err) {
             alert(err.message);
         } finally {
             docLoading.classList.add("d-none");
         }
     });
+
+    if (downloadDocBtn) {
+        downloadDocBtn.addEventListener("click", () => {
+            if (!translatedDocText) return;
+            const blob = new Blob([translatedDocText], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "documento_traducido.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
 
     // --- 4. MÓDULO IMÁGENES ---
     const imageFile = document.getElementById("imageFile");
@@ -121,7 +191,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const res = await translator.translateImage(base64Image, globalDirection.value);
-            imageResult.innerHTML = `<p class="mb-0">${res.translation}</p>`;
+            // Formato visual mejorado para la traducción de la imagen
+            imageResult.innerHTML = `
+                <h6 class="text-success fw-bold">Texto Traducido de la Imagen:</h6>
+                <p class="p-3 bg-light rounded border mb-0" style="white-space: pre-line;">${res.translation}</p>
+            `;
         } catch (err) {
             imageResult.innerHTML = `<span class="text-danger">Error: ${err.message}</span>`;
         } finally {
