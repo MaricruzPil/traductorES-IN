@@ -1,34 +1,161 @@
-body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+    --bg-main: #ffffff;
+    --bg-secondary: #f7f7f8;
+    --border-color: #e5e5e7;
+    --text-primary: #2d3748;
+    --accent-color: #10a37f; /* Estilo verde moderno tipo IA */
 }
 
+body {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Navbar minimalista */
+.navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-brand {
+    color: #1a202c !important;
+    letter-spacing: -0.5px;
+}
+
+/* Tarjetas flotantes limpias estilo IA */
 .card {
-    border: none;
-    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    background-color: #ffffff;
 }
 
 .card-header {
     background-color: #ffffff;
-    border-bottom: 1px solid #edf2f7;
-    border-top-left-radius: 0.75rem !important;
-    border-top-right-radius: 0.75rem !important;
+    border-bottom: 1px solid var(--border-color);
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
     font-weight: 600;
+}
+
+/* Pestañas de navegación modernas (Pills) */
+.nav-pills .nav-link {
+    color: #4a5568;
+    background-color: transparent;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #212529;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-pills .nav-link:hover:not(.active) {
+    background-color: #edf2f7;
+}
+
+/* Campos de entrada y controles */
+.form-control, .form-select {
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    padding: 0.65rem 1rem;
+    box-shadow: none !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #212529;
+}
+
+/* Botones con estilo moderno */
+.btn-primary {
+    background-color: #212529;
+    border-color: #212529;
+    border-radius: 0.75rem;
+    padding: 0.65rem 1.25rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #383f45;
+    border-color: #383f45;
+}
+
+.btn-success {
+    border-radius: 0.75rem;
+    padding: 0.65rem 1.25rem;
+    font-weight: 500;
+}
+
+.btn-danger {
+    border-radius: 0.75rem;
 }
 
 /* Estilo para las burbujas del Chat */
 .chat-message {
-    padding: 10px 15px;
+    padding: 12px 18px;
     border-radius: 1rem;
-    margin-bottom: 10px;
-    max-width: 80%;
+    margin-bottom: 12px;
+    max-width: 85%;
+    line-height: 1.5;
 }
+
 .chat-original {
     font-size: 0.95rem;
 }
+
 .chat-translation {
     font-size: 0.95rem;
-    border-top: 1px dashed rgba(0,0,0,0.1);
-    margin-top: 5px;
-    padding-top: 5px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+/* Área de mensajes del chat con scroll limpio */
+#chatMessages {
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 1rem !important;
+}
+
+/* Footer sutil */
+footer {
+    background-color: transparent !important;
+    border-top: 1px solid var(--border-color) !important;
+    font-size: 0.85rem;
+}
+/* Hacer que el cuerpo y la estructura ocupen la pantalla de forma responsiva */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden; /* Evita scroll horizontal molesto */
+}
+
+/* Contenedor principal adaptable */
+.container.my-4.flex-grow-1 {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 120px); /* Se ajusta a la altura de la pantalla */
+}
+
+/* Modificar el contenedor de mensajes del chat para que sea flexible en lugar de una altura fija */
+#chatMessages {
+    flex: 1; /* Ocupa todo el espacio disponible dinámicamente */
+    min-height: 250px;
+    max-height: 60vh; /* Se adapta si estás en pantallas pequeñas */
+    overflow-y: auto; /* Solo muestra scroll interno si los mensajes son muchos */
+}
+
+/* Asegurar que las imágenes y textareas se adapten al 100% en móviles */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+textarea.form-control {
+    resize: vertical; /* Permite ajustar si es necesario pero se adapta */
 }
