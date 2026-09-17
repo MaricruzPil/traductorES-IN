@@ -34,7 +34,6 @@ html,
 body {
     height: 100%;
     margin: 0;
-    overflow: hidden;
 }
 
 body {
@@ -132,7 +131,8 @@ body {
     display: flex;
     flex-direction: column;
 
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
 
     overflow: hidden;
 
@@ -348,16 +348,28 @@ body {
    TAB CONTENT
    ========================================================= */
 
-.tab-content,
-.tab-pane.active {
+.tab-content {
     display: flex;
     flex-direction: column;
 
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
 
     overflow: hidden;
+}
 
+.tab-pane {
+    height: 100%;
+}
+
+.tab-pane.active {
+    display: flex !important;
+    flex-direction: column;
+
+    flex: 1 1 auto;
     min-height: 0;
+
+    overflow: hidden;
 }
 
 
@@ -366,13 +378,17 @@ body {
    ========================================================= */
 
 .tab-pane > .card {
-    flex: 1;
+    flex: 1 1 auto;
 
     min-height: 0;
+    height: 100%;
 
     padding: 22px !important;
 
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
 }
 
 
@@ -901,3 +917,151 @@ footer p {
     }
 }
 
+/* =========================================================
+   CHAT - ESTRUCTURA PRINCIPAL
+   ========================================================= */
+
+#chat-pane > .card {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    height: 100%;
+
+    padding: 22px !important;
+
+    overflow: hidden;
+}
+
+
+/* Área donde aparecen los mensajes */
+
+#chatMessages {
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    width: 100%;
+
+    overflow-y: auto !important;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+
+    margin-bottom: 14px !important;
+
+    padding: 18px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #f1f5f9
+        ) !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    border-radius: 16px !important;
+}
+
+
+/* Campo inferior */
+
+#chat-pane .input-group {
+    flex: 0 0 auto;
+
+    width: 100%;
+
+    min-height: 52px;
+
+    display: flex;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    padding: 4px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+
+/* Input */
+
+#chat-pane .input-group .form-control {
+    flex: 1;
+
+    min-width: 0;
+
+    height: 44px;
+
+    border: none;
+
+    background: transparent;
+
+    box-shadow: none !important;
+
+    padding-left: 14px;
+}
+
+
+/* Botón enviar */
+
+#chat-pane .input-group .btn {
+    flex: 0 0 auto;
+
+    height: 44px;
+
+    min-width: 90px;
+
+    margin: 0;
+
+    border-radius: 10px;
+
+    padding: 0 20px;
+}
+#audio-pane > .card {
+    padding-bottom: 28px !important;
+}
+
+#audio-pane .row {
+    flex-shrink: 0;
+}
+
+#audioOriginal,
+#audioTranslation {
+    width: 100%;
+
+    min-height: 120px;
+
+    resize: vertical;
+}
+#processAudioBtn {
+    width: 100%;
+    margin-top: 4px;
+}
+/* Separación entre pestañas y contenido */
+
+.nav-pills {
+    margin-bottom: 16px !important;
+}
+
+/* Evita que las tarjetas se peguen a los bordes */
+
+.tab-pane > .card {
+    box-sizing: border-box;
+}
+
+/* Las filas no deben comprimirse */
+
+.row {
+    flex-shrink: 0;
+}
