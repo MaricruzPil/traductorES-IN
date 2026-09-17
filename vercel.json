@@ -4,17 +4,3 @@
     { "source": "/api/(.*)", "destination": "/api/index.py" }
   ]
 }
-
-
-
-app = Flask(__name__)
-
-# Permitir orígenes cruzados de forma segura con soporte para métodos y preflight
-allowed_origin = os.environ.get("ALLOWED_ORIGIN", "*")
-CORS(app, resources={
-    r"/api/*": {
-        "origins": allowed_origin,
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
-    }
-})
