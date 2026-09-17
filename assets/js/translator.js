@@ -1,5 +1,5 @@
 class ApiTranslatorClient {
-    constructor(backendUrl = "https://traductorespanolinglesviceversa.vercel.app") {
+    constructor(backendUrl = "https://traductorespanolinglesviceversa.vercel.app") { // <--- Reemplaza con tu URL real de Vercel sin barra al final
         this.backendUrl = backendUrl;
     }
 
@@ -14,6 +14,14 @@ class ApiTranslatorClient {
         }
 
         const response = await fetch(`${this.backendUrl}${endpoint}`, options);
+        
+        // Validamos si la respuesta es JSON antes de parsearla
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            const textResponse = await response.text();
+            throw new Error(`El servidor no devolvió JSON (Código ${response.status}). Revisa la consola o CORS.`);
+        }
+
         const result = await response.json();
 
         if (!response.ok) {
@@ -22,6 +30,7 @@ class ApiTranslatorClient {
         return result;
     }
 
+    // Métodos restantes...
     async translateText(text, direction) {
         return await this._post("/api/translate-text", { text, direction });
     }
