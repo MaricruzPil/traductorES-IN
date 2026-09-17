@@ -45,14 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
     sendChatBtn.addEventListener("click", handleChat);
     chatInput.addEventListener("keypress", (e) => { if (e.key === "Enter") handleChat(); });
 
-    // --- 2. MÓDULO AUDIO (Subir archivo + Micrófono) ---
+    // --- 2. MÓDULO AUDIO (Subir archivo o Micrófono) ---
     const processAudioBtn = document.getElementById("processAudioBtn");
     const audioFile = document.getElementById("audioFile");
     const audioLoading = document.getElementById("audioLoading");
     const audioOriginal = document.getElementById("audioOriginal");
     const audioTranslation = document.getElementById("audioTranslation");
 
-    // Variables para grabación de micrófono
     let mediaRecorder;
     let audioChunks = [];
     const recordAudioBtn = document.getElementById("recordAudioBtn");
@@ -80,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Lógica para grabar desde la PC/Laptop
     if (recordAudioBtn && stopRecordBtn) {
         recordAudioBtn.addEventListener("click", async () => {
             try {
@@ -137,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
             docTranslation.value = res.translation;
             translatedDocText = res.translation;
 
-            // Mostrar botón de descarga si existe en el HTML
             if (downloadDocBtn) {
                 downloadDocBtn.classList.remove("d-none");
             }
@@ -176,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (file) {
             const reader = new FileReader();
             reader.onload = (uploadEvent) => {
-                base64Image = uploadEvent.target.result.split(",")[1]; // Remover prefijo data:image/...
+                base64Image = uploadEvent.target.result.split(",")[1];
                 imagePreview.src = uploadEvent.target.result;
                 imagePreview.classList.remove("d-none");
             };
@@ -191,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const res = await translator.translateImage(base64Image, globalDirection.value);
-            // Formato visual mejorado para la traducción de la imagen
             imageResult.innerHTML = `
                 <h6 class="text-success fw-bold">Texto Traducido de la Imagen:</h6>
                 <p class="p-3 bg-light rounded border mb-0" style="white-space: pre-line;">${res.translation}</p>
