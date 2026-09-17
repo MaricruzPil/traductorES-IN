@@ -1,5 +1,5 @@
 // Instanciamos nuestra clase de traducción (puedes cambiar la URL si publicas en dominios separados)
-const translator = new ApiTranslatorClient("");
+const translator = new ApiTranslatorClient("https://traductorespanolinglesviceversa.vercel.app");
 
 document.addEventListener("DOMContentLoaded", () => {
     const globalDirection = document.getElementById("globalDirection");
