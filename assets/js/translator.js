@@ -1,5 +1,5 @@
 class ApiTranslatorClient {
-    constructor(backendUrl = "") {
+    constructor(backendUrl = "https://traductorespanolinglesviceversa.vercel.app/") {
         // Si tu frontend está en GitHub Pages y tu backend en Vercel, coloca aquí la URL completa de Vercel (ej: "https://tu-proyecto.vercel.app")
         // Si usas rutas relativas porque todo corre en el mismo servidor, déjalo vacío ("").
         this.backendUrl = backendUrl;
