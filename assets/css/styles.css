@@ -1,141 +1,903 @@
+
+
 :root {
-    --bg-main: #ffffff;
-    --bg-secondary: #f7f7f8;
-    --border-color: #e5e5e7;
-    --text-primary: #2d3748;
+    --bg-main: #f5f7fb;
+    --bg-card: rgba(255, 255, 255, 0.92);
+    --bg-secondary: #f8fafc;
+
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --primary-light: #eef2ff;
+
+    --success: #16a34a;
+    --danger: #dc2626;
+
+    --text-primary: #172033;
+    --text-secondary: #64748b;
+    --text-light: #94a3b8;
+
+    --border-color: #e2e8f0;
+
+    --shadow-sm: 0 4px 15px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.12);
+
+    --radius: 18px;
 }
 
-/* 1. Eliminar por completo el scroll de la página principal */
-html, body {
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html,
+body {
     height: 100%;
     margin: 0;
-    overflow: hidden; /* Bloquea el scroll general de la página */
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
 }
 
-/* Estructura para que la app encaje perfectamente en la pantalla */
-body.bg-light {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+body {
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(99, 102, 241, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(139, 92, 246, 0.08),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8fafc 0%,
+            #f1f5f9 100%
+        );
+
+    color: var(--text-primary);
+
+    font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
 }
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1e293b
+        ) !important;
+
+    border: none !important;
+
+    min-height: 68px;
+
+    box-shadow:
+        0 4px 20px rgba(15, 23, 42, 0.15);
+
+    flex-shrink: 0;
+}
+
+.navbar .container {
+    max-width: 1100px;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Icono decorativo del título */
+.navbar-brand::before {
+    content: "🌐";
+
+    font-size: 1.25rem;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+}
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
 
 .container.my-4.flex-grow-1 {
     display: flex;
     flex-direction: column;
+
     flex: 1;
+
     overflow: hidden;
-    max-width: 1000px;
+
+    max-width: 1100px;
+
+    margin-top: 22px !important;
+    margin-bottom: 12px !important;
 }
 
-.tab-content, .tab-pane.active {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
+
+.card {
+    border: 1px solid rgba(226, 232, 240, 0.9);
+
+    border-radius: var(--radius);
+
+    background: var(--bg-card);
+
+    box-shadow: var(--shadow-sm);
+
+    backdrop-filter: blur(12px);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-/* Navbar minimalista */
-.navbar {
-    background-color: #ffffff !important;
-    border-bottom: 1px solid var(--border-color);
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+
+/* =========================================================
+   PANEL DE CONTROL
+   ========================================================= */
+
+.container > .card:first-child {
+    position: relative;
+
+    overflow: hidden;
+
     flex-shrink: 0;
 }
 
-.navbar-brand {
-    color: #1a202c !important;
-    letter-spacing: -0.5px;
+.container > .card:first-child::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 5px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--primary),
+            #8b5cf6
+        );
 }
 
-/* Tarjetas flotantes */
-.card {
-    border: 1px solid var(--border-color);
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-    background-color: #ffffff;
+.container > .card:first-child .card-body {
+    min-height: 78px;
 }
 
-.card-body {
-    padding: 1.25rem;
+.card-title {
+    color: var(--text-primary) !important;
+
+    font-size: 1.05rem;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* 2. Corregir el diseño del selector de Dirección para que no se encime */
+.card-title::before {
+    content: "⚙️";
+
+    font-size: 1.1rem;
+
+    background: var(--primary-light);
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   SELECTOR DE DIRECCIÓN
+   ========================================================= */
+
 .input-group.w-auto {
-    min-width: 220px; /* Da el espacio suficiente para que el texto y flechas no colisionen */
+    min-width: 290px;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.06);
 }
 
 .input-group-text {
-    background-color: #212529 !important;
-    color: #ffffff !important;
-    border-color: #212529 !important;
-    border-top-left-radius: 0.75rem !important;
-    border-bottom-left-radius: 0.75rem !important;
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #6366f1
+        ) !important;
+
+    border: none !important;
+
+    color: white !important;
+
+    font-weight: 600;
+
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .form-select {
-    border-top-right-radius: 0.75rem !important;
-    border-bottom-right-radius: 0.75rem !important;
-    padding-right: 2rem;
+    border: 1px solid var(--border-color);
+
+    border-left: none;
+
+    min-height: 43px;
+
+    font-weight: 500;
+
+    color: var(--text-primary);
+
+    background-color: white;
+
+    cursor: pointer;
 }
 
-/* Pestañas de navegación */
+.form-select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+
+/* =========================================================
+   PESTAÑAS
+   ========================================================= */
+
+.nav-pills {
+    background: rgba(255, 255, 255, 0.75);
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 15px;
+
+    padding: 5px;
+
+    box-shadow: var(--shadow-sm);
+
+    flex-shrink: 0;
+}
+
 .nav-pills .nav-link {
-    color: #4a5568;
-    background-color: transparent;
-    border-radius: 0.75rem;
-    transition: all 0.2s ease;
+    color: var(--text-secondary);
+
+    background: transparent;
+
+    border-radius: 11px;
+
+    font-weight: 600;
+
+    padding: 10px 15px;
+
+    transition:
+        all 0.2s ease;
+}
+
+.nav-pills .nav-link:hover {
+    color: var(--primary);
+
+    background: var(--primary-light);
+
+    transform: translateY(-1px);
 }
 
 .nav-pills .nav-link.active {
-    background-color: #212529;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #6366f1
+        );
+
+    color: white;
+
+    box-shadow:
+        0 5px 14px rgba(79, 70, 229, 0.25);
 }
 
-.nav-pills .nav-link:hover:not(.active) {
-    background-color: #edf2f7;
+
+/* =========================================================
+   TAB CONTENT
+   ========================================================= */
+
+.tab-content,
+.tab-pane.active {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    overflow: hidden;
+
+    min-height: 0;
 }
 
-/* Campos de entrada */
+
+/* =========================================================
+   CARDS DE CADA HERRAMIENTA
+   ========================================================= */
+
+.tab-pane > .card {
+    flex: 1;
+
+    min-height: 0;
+
+    padding: 22px !important;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
 .form-control {
-    border-radius: 0.75rem;
     border: 1px solid var(--border-color);
-    box-shadow: none !important;
+
+    border-radius: 12px;
+
+    min-height: 44px;
+
+    color: var(--text-primary);
+
+    background-color: #ffffff;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.form-control::placeholder {
+    color: var(--text-light);
+}
+
+.form-control:hover {
+    border-color: #cbd5e1;
 }
 
 .form-control:focus {
-    border-color: #212529;
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.12) !important;
+
+    outline: none;
 }
 
-/* Botones */
+
+/* =========================================================
+   INPUT FILE
+   ========================================================= */
+
+input[type="file"] {
+    background: #f8fafc;
+
+    border: 2px dashed #cbd5e1;
+
+    cursor: pointer;
+
+    padding: 12px 15px;
+
+    transition: all 0.2s ease;
+}
+
+input[type="file"]:hover {
+    background: var(--primary-light);
+
+    border-color: var(--primary);
+}
+
+input[type="file"]::file-selector-button {
+    border: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    margin-right: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.btn {
+    border-radius: 11px;
+
+    font-weight: 600;
+
+    padding: 10px 17px;
+
+    border: none;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+
+/* Botón principal */
+
 .btn-primary {
-    background-color: #212529;
-    border-color: #212529;
-    border-radius: 0.75rem;
-    font-weight: 500;
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #6366f1
+        );
+
+    border: none;
+
+    box-shadow:
+        0 5px 14px rgba(79, 70, 229, 0.22);
 }
 
 .btn-primary:hover {
-    background-color: #383f45;
-    border-color: #383f45;
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-dark),
+            #4f46e5
+        );
+
+    box-shadow:
+        0 7px 18px rgba(79, 70, 229, 0.30);
 }
 
-/* Área de mensajes del chat flexible sin scroll externo */
+
+/* Botón peligro */
+
+.btn-danger {
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #dc2626
+        );
+
+    box-shadow:
+        0 5px 14px rgba(220, 38, 38, 0.18);
+}
+
+
+/* Botón secundario */
+
+.btn-secondary {
+    background: #475569;
+
+    color: white;
+
+    box-shadow:
+        0 4px 10px rgba(71, 85, 105, 0.18);
+}
+
+
+/* Botón descarga */
+
+.btn-success {
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #15803d
+        );
+
+    box-shadow:
+        0 5px 14px rgba(22, 163, 74, 0.18);
+}
+
+
+/* =========================================================
+   CHAT
+   ========================================================= */
+
 #chatMessages {
     flex: 1;
-    overflow-y: auto !important; /* El scroll solo aparece aquí dentro si hay muchos mensajes */
-    background-color: var(--bg-secondary) !important;
+
+    min-height: 0;
+
+    overflow-y: auto !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #f1f5f9
+        ) !important;
+
     border: 1px solid var(--border-color) !important;
-    border-radius: 1rem !important;
+
+    border-radius: 15px !important;
+
+    padding: 18px !important;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #cbd5e1
+        transparent;
 }
 
-/* Footer compacto */
-footer {
-    background-color: transparent !important;
-    border-top: 1px solid var(--border-color) !important;
-    font-size: 0.85rem;
-    flex-shrink: 0;
-    padding: 0.75rem 0 !important;
+
+/* Scrollbar Chrome */
+
+#chatMessages::-webkit-scrollbar {
+    width: 7px;
 }
+
+#chatMessages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#chatMessages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 20px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* Texto inicial */
+
+#chatMessages .text-muted {
+    margin-top: 100px;
+
+    color: var(--text-light) !important;
+
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   CHAT INPUT
+   ========================================================= */
+
+#chat-pane .input-group {
+    background: white;
+
+    border-radius: 13px;
+
+    padding: 4px;
+
+    border: 1px solid var(--border-color);
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+#chat-pane .input-group .form-control {
+    border: none;
+
+    box-shadow: none !important;
+
+    background: transparent;
+}
+
+#chat-pane .input-group .btn {
+    margin: 0;
+
+    padding-left: 22px;
+    padding-right: 22px;
+}
+
+
+/* =========================================================
+   AUDIO
+   ========================================================= */
+
+#audio-pane .card {
+    overflow-y: auto;
+}
+
+#audioOriginal,
+#audioTranslation {
+    min-height: 110px;
+
+    resize: none;
+}
+
+#audioTranslation {
+    background:
+        linear-gradient(
+            135deg,
+            #f0fdf4,
+            #ffffff
+        );
+
+    border-color: #bbf7d0;
+}
+
+
+/* =========================================================
+   DOCUMENTOS
+   ========================================================= */
+
+#doc-pane .card {
+    overflow-y: auto;
+}
+
+#docOriginal,
+#docTranslation {
+    min-height: 150px;
+
+    resize: vertical;
+}
+
+#docTranslation {
+    background:
+        linear-gradient(
+            135deg,
+            #f0fdf4,
+            #ffffff
+        );
+
+    border-color: #bbf7d0;
+}
+
+
+/* =========================================================
+   IMÁGENES
+   ========================================================= */
+
+#image-pane .card {
+    overflow-y: auto;
+}
+
+#imagePreview {
+    max-height: 240px !important;
+
+    object-fit: contain;
+
+    padding: 6px;
+
+    background: white;
+
+    border: 1px solid var(--border-color) !important;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+#imagePreview:hover {
+    transform: scale(1.02);
+
+    box-shadow: var(--shadow-md);
+}
+
+#imageResult {
+    min-height: 100px;
+
+    border: 1px solid var(--border-color) !important;
+
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #ffffff
+        ) !important;
+
+    color: var(--text-primary);
+
+    box-shadow:
+        inset 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
+label.fw-bold {
+    color: var(--text-primary);
+
+    margin-bottom: 7px;
+
+    display: block;
+
+    font-size: 0.9rem;
+}
+
+label.text-success {
+    color: var(--success) !important;
+}
+
+
+/* =========================================================
+   SPINNERS
+   ========================================================= */
+
+.spinner-border {
+    width: 2rem;
+
+    height: 2rem;
+
+    border-width: 3px;
+}
+
+
+/* =========================================================
+   ESTADO DE GRABACIÓN
+   ========================================================= */
+
+#recordStatus {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    background: #fef2f2;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 0.85rem;
+
+    animation: pulseRecord 1.5s infinite;
+}
+
+@keyframes pulseRecord {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.55;
+    }
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    background:
+        rgba(255, 255, 255, 0.7) !important;
+
+    border-top:
+        1px solid var(--border-color) !important;
+
+    color: var(--text-secondary) !important;
+
+    font-size: 0.8rem;
+
+    flex-shrink: 0;
+
+    padding: 10px 0 !important;
+
+    backdrop-filter: blur(10px);
+}
+
+footer p {
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    html,
+    body {
+        overflow: auto;
+    }
+
+    .container.my-4.flex-grow-1 {
+        overflow: visible;
+
+        margin-top: 15px !important;
+
+        max-width: 100%;
+    }
+
+    .navbar {
+        min-height: 60px;
+    }
+
+    .navbar-brand {
+        font-size: 0.9rem;
+    }
+
+    .input-group.w-auto {
+        width: 100% !important;
+
+        min-width: 0;
+    }
+
+    .nav-pills {
+        gap: 3px !important;
+    }
+
+    .nav-pills .nav-link {
+        padding: 9px 5px;
+
+        font-size: 0.82rem;
+    }
+
+    .tab-pane > .card {
+        padding: 16px !important;
+    }
+}
+
